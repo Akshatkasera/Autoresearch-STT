@@ -1,0 +1,25 @@
+git_commit	hf_wer	hf_war	sherpa_fp32_wer	sherpa_int8_wer	status	description
+unknown					failed	baseline | DatasetNotFoundError("Dataset 'ai4bharat/Svarah' is a gated dataset on the Hub. You must be authenticated to access it.")
+unknown					failed	baseline | RuntimeError('Input type (float) and bias type (c10::Half) should be the same')
+unknown	14.2900	85.7100			partial	baseline
+unknown	14.2900	85.7100			partial	baseline-export-fix
+unknown	14.2900	85.7100			partial	baseline-export-fix-2
+unknown	14.2900	85.7100	14.9107	15.4405	ok	baseline-final
+unknown	14.2900	85.7100	14.9107	15.2589	ok	quantize-encoder-only
+unknown	14.2900	85.7100	14.9107	15.6222	ok	encoder-only-quint8
+unknown	14.2900	85.7100	14.9107	15.2589	ok	official-tokenizer-metadata-manual
+unknown	14.2900	85.7100	14.9107	15.2437	ok	decoder-ffn-int8-manual
+unknown	14.2900	85.7100	14.9107	15.2437	ok	decoder-ffn-int8
+unknown	14.2900	85.7100	14.9107	15.2740	ok	decoder-ffn-first6
+unknown	14.2900	85.7100	14.9107	15.2589	ok	decoder-fc1-only
+unknown	14.2900	85.7100	14.9107	15.3043	ok	decoder-ffn-last6
+unknown	14.2900	85.7100	14.9107	15.2286	ok	decoder-ffn-except-last2
+unknown	14.2900	85.7100	14.9107	15.3043	ok	decoder-ffn-except-last1
+unknown	14.2900	85.7100	14.9107	15.2740	ok	decoder-ffn-except-last3
+unknown	14.2900	85.7100	14.9107	15.1832	ok	decoder-top2-fc1-only
+unknown	14.2900	85.7100	14.9107	15.2740	ok	decoder-top1-fc1-only
+unknown	14.2900	85.7100	14.9107	15.2589	ok	decoder-layer10-fc1-only
+unknown	14.2900	85.7100	14.9107	15.2437	ok	decoder-top2-fc2-only
+unknown	14.2900	85.7100	14.9107	15.3951	ok	decoder-add-lower-outproj
+unknown	9.4710	90.5290	10.3102	10.5799	ok	normalize-strip-punctuation
+unknown	9.4710	90.5290	12.6330	13.0226	ok	tail-paddings-300

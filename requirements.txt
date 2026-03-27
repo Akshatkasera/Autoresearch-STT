@@ -1,0 +1,14 @@
+torch
+datasets
+evaluate
+huggingface_hub
+jiwer
+numpy
+onnx
+onnxruntime
+peft
+pyarrow
+scipy
+sherpa-onnx
+soundfile
+transformers

@@ -1,0 +1,26 @@
+{
+  "base_model_name": "openai/whisper-small",
+  "language": "en",
+  "task": "transcribe",
+  "device": "cuda",
+  "num_threads": 4,
+  "max_eval_items": -1,
+  "paths": {
+    "train_raw_dir": "../finetune model/svarah_train_raw",
+    "eval_raw_dir": "../finetune model/svarah_eval_raw",
+    "train_preprocessed_dir": "../finetune model/svarah_train_preprocessed",
+    "eval_preprocessed_dir": "../finetune model/svarah_eval_preprocessed",
+    "lora_adapter_dir": "../finetune model/whisper-small-svarah-lora-final",
+    "merged_model_dir": "artifacts/merged-model",
+    "eval_audio_dir": "artifacts/eval-audio",
+    "eval_manifest": "artifacts/eval-manifest.jsonl",
+    "onnx_fp32_dir": "artifacts/onnx-fp32",
+    "onnx_int8_dir": "artifacts/onnx-int8",
+    "run_summaries_dir": "artifacts/run-summaries",
+    "results_tsv": "results.tsv"
+  },
+  "export": {
+    "hook_command": "",
+    "notes": "Set hook_command to a shell command that exports merged_model_dir to onnx_fp32_dir. Available placeholders: {base_model_name}, {merged_model_dir}, {onnx_fp32_dir}, {repo_root}, {workspace_root}"
+  }
+}

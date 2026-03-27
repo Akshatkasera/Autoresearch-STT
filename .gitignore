@@ -1,0 +1,44 @@
+artifacts/
+.venv/
+logs/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+native_crash.log
+step_log.txt
+
+# Model weights & checkpoints
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# ONNX model files
+*.onnx
+*.ort
+
+# Audio / dataset files
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.mp4
+*.m4a
+eval_audio/
+dataset/
+
+# Quantized / large binary outputs
+*.int8
+*.fp32
+*.tflite
+
+# Config with secrets (keep example, ignore actual)
+config.json
+
+# External cloned repos
+external/
+
+# Results (optional — remove this line if you want results tracked)
+# results.tsv
