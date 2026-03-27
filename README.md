@@ -1,132 +1,76 @@
-# autoresearch-stt
+# 🚀 Autoresearch-STT: Whisper to Android Deployment Pipeline
 
-This directory turns your existing Whisper fine-tuning project into an `autoresearch`-style workspace for Android + Sherpa deployment using codex as the agent.
+**Autoresearch-STT** is an agentic research system designed to automate the process of fine-tuning, merging, exporting, and deploying Whisper models to Android using the [Sherpa-ONNX](https://github.com/k2-fsa/sherpa-onnx) framework.
 
-It is built for your actual target:
+This workspace bridges the gap between a raw Hugging Face LoRA adapter and a production-ready, quantized ONNX model running on a mobile device.
 
-- train or update a Whisper model
-- merge the LoRA adapter
-- export to Sherpa-compatible ONNX
-- quantize to int8
-- evaluate the deployed model
-- keep or discard changes based on deployed accuracy
+---
 
+## 📦 Fine-tuned Model
 
-## Fine-tuned Model
+The pre-trained/fine-tuned model used in this pipeline is available on Hugging Face:
+🔗 **[Akshatkasera007/Svarah-Whisper-v1](https://huggingface.co/Akshatkasera007/Svarah-Whisper-v1)**
 
-You can download the fine-tuned Whisper model (Svarah-Whisper-v1) from Hugging Face:
-[Akshatkasera007/Svarah-Whisper-v1](https://huggingface.co/Akshatkasera007/Svarah-Whisper-v1)
+---
 
-## What is included
+## ✨ Key Features
 
-- `config.example.json`: paths and runtime settings
-- `prepare_eval_audio.py`: exports eval audio to wav + manifest from your raw HF dataset
-- `merge_lora.py`: merges the LoRA adapter into the base Whisper model
-- `evaluate_hf.py`: evaluates the merged HF model on the eval manifest
-- `evaluate_sherpa.py`: evaluates exported Sherpa Whisper ONNX artifacts
-- `quantize_onnx.py`: dynamic int8 quantization for ONNX artifacts
-- `run_pipeline.py`: one-command pipeline runner and result logger
-- `program.md`: instructions for an autonomous coding agent
-- `bootstrap_wsl.sh`: WSL bootstrap helper
-- `results.tsv`: experiment log
+- **Automated LoRA Merging**: Seamlessly merges your fine-tuned LoRA adapters with the base Whisper model.
+- **Optimized ONNX Export**: Converts merged models into Sherpa-compatible ONNX artifacts.
+- **Int8 Quantization**: Dynamic quantization to reduce model size and improve Android inference speed.
+- **End-to-End Evaluation**: Measures WER (Word Error Rate) and WAR (Word Accuracy Rate) through each stage (HF Merged -> FP32 ONNX -> INT8 ONNX).
+- **Agentic Program Loop**: Includes `program.md` specifically designed for autonomous coding agents to iterate on the pipeline.
 
-## Directory assumptions
+---
 
-This workspace assumes it lives next to your current Whisper project:
+## 🛠️ Project Structure
 
-- `../finetune model/svarah_train_raw`
-- `../finetune model/svarah_eval_raw`
-- `../finetune model/svarah_train_preprocessed`
-- `../finetune model/svarah_eval_preprocessed`
-- `../finetune model/whisper-small-svarah-lora-final`
+- `run_pipeline.py`: The main entry point. Orchestrates the entire research/deployment loop.
+- `merge_lora.py`: Merges LoRA weights into the base model.
+- `export_hf_to_sherpa_onnx.py`: Handles the complex conversion to Sherpa-ONNX format.
+- `quantize_onnx.py`: Applies int8 quantization to the exported models.
+- `evaluate_sherpa.py`: Benchmarks the performance of the exported ONNX model.
+- `prepare_eval_audio.py`: Prepares your dataset for the evaluation pipeline.
 
-If your remote GPU machine uses different paths, update `config.json`.
+---
 
-## Important limitation
+## 🚀 Getting Started
 
-Your current pipeline ends at the LoRA adapter. Sherpa needs exported ONNX artifacts:
+### 1. Prerequisites
+- WSL2 (Ubuntu 22.04 recommended)
+- Python 3.10+
+- Access to a GPU for faster export/merging processes.
 
-- encoder ONNX
-- decoder ONNX
-- tokens file
-
-This workspace isolates that step behind `export.hook_command` in `config.json`.
-
-Reason: Sherpa's official Whisper exporter is primarily documented for standard Whisper checkpoints and may need adaptation for a locally merged fine-tuned model. The workspace is designed so the agent can work on that export step directly without changing the rest of the evaluation pipeline.
-
-## Baseline workflow
-
-1. Copy this folder and your `finetune model` folder to the WSL-accessible GPU machine.
-2. In WSL, run `bash bootstrap_wsl.sh`
-3. Edit `config.json`
-4. Set `export.hook_command`
-5. Run:
-
+### 2. Setup
+Clone the repository and run the bootstrap script:
 ```bash
+./bootstrap_wsl.sh
 source .venv/bin/activate
-python run_pipeline.py --config config.json --description "baseline"
+pip install -r requirements.txt
 ```
 
-## What gets measured
-
-The pipeline records:
-
-- merged HF WER/WAR
-- Sherpa fp32 WER/WAR if export works
-- Sherpa int8 WER/WAR if quantization works
-
-The metric you actually want to optimize is:
-
-- primary: `sherpa_int8_wer`
-- secondary: `sherpa_fp32_wer`
-- tertiary: model size and Android latency
-
-## Suggested export hook shape
-
-Set `export.hook_command` to a shell command. Available placeholders:
-
-- `{base_model_name}`
-- `{merged_model_dir}`
-- `{onnx_fp32_dir}`
-- `{repo_root}`
-- `{workspace_root}`
-
-Example shape:
-
+### 3. Configuration
+Copy `config.example.json` to `config.json` and update your paths:
 ```bash
-bash -lc 'cd {repo_root}/autoresearch-stt/external/sherpa-onnx && python3 scripts/whisper/export-onnx.py ...'
+cp config.example.json config.json
 ```
+Ensure your fine-tuned weights and base model paths are correctly pointed in the configuration.
 
-The command must write the fp32 ONNX artifacts into `{onnx_fp32_dir}`.
-
-## Manual commands
-
-Prepare eval audio:
-
+### 4. Run the Pipeline
+Execute the full research pipeline with a single command:
 ```bash
-python prepare_eval_audio.py --config config.json
+python run_pipeline.py --config config.json --description "First deployment test"
 ```
 
-Merge LoRA:
+---
 
-```bash
-python merge_lora.py --config config.json
-```
+## 📊 Deployment Metrics
+The pipeline logs results to `results.tsv`, tracking:
+- **`merged_hf_wer`**: Performance of the merged model.
+- **`sherpa_fp32_wer`**: Performance after ONNX export.
+- **`sherpa_int8_wer`**: Performance after quantization (this is your target for Android).
 
-Evaluate merged HF model:
+---
 
-```bash
-python evaluate_hf.py --config config.json --model-path artifacts/merged-model
-```
-
-Quantize exported ONNX:
-
-```bash
-python quantize_onnx.py --input-dir artifacts/onnx-fp32 --output-dir artifacts/onnx-int8
-```
-
-Evaluate Sherpa export:
-
-```bash
-python evaluate_sherpa.py --config config.json --onnx-dir artifacts/onnx-int8
-```
+## 📄 License
+Check the `LICENSE` file for details (if applicable). Developed for efficient Whisper-to-Android research.
