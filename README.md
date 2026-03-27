@@ -19,7 +19,14 @@ The pre-trained/fine-tuned model used in this pipeline is available on Hugging F
 
 ## Experimental Results and Trials
 
-The following table summarizes the research trials conducted using this system to minimize the accuracy gap.
+The following research trials were conducted to find the best configuration through a systematic search:
+
+- **Baseline Stabilization (7 trials)**: Fixing gated dataset access, handling float vs. half-precision errors, and establishing the true "out-of-the-box" performance (15.44% WER).
+- **Quantization Experiments (4 trials)**: Testing different bit-depths and selectively quantizing the encoder vs. the decoder to see which parts of the model were most sensitive to bit-reduction.
+- **Layer-Wise Optimization (12 trials)**: The bulk of the research. Testing specific layers of the decoder (FFN layers, top layers, and output projections) to see if keeping specific "bottleneck" layers in high precision would improve accuracy.
+- **Preprocessing & Normalization (2 trials)**: Testing how text normalization and audio padding affected the final output. This is where we found the "Winner" (9.47% WER).
+
+The following table summarizes the data from these trials:
 
 | Trial Description | HF WER (%) | Sherpa FP32 WER (%) | Sherpa INT8 WER (%) | Status |
 |---|---|---|---|---|
