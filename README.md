@@ -1,6 +1,6 @@
 # autoresearch-stt
 
-This directory turns your existing Whisper fine-tuning project into an `autoresearch`-style workspace for Android + Sherpa deployment.
+This directory turns your existing Whisper fine-tuning project into an `autoresearch`-style workspace for Android + Sherpa deployment using codex as the agent.
 
 It is built for your actual target:
 
@@ -11,7 +11,6 @@ It is built for your actual target:
 - evaluate the deployed model
 - keep or discard changes based on deployed accuracy
 
-The original GPT demo in the repo does not solve this problem. This workspace does.
 
 ## What is included
 
