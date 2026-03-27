@@ -12,6 +12,11 @@ It is built for your actual target:
 - keep or discard changes based on deployed accuracy
 
 
+## Fine-tuned Model
+
+You can download the fine-tuned Whisper model (Svarah-Whisper-v1) from Hugging Face:
+[Akshatkasera007/Svarah-Whisper-v1](https://huggingface.co/Akshatkasera007/Svarah-Whisper-v1)
+
 ## What is included
 
 - `config.example.json`: paths and runtime settings
