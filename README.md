@@ -19,7 +19,7 @@ The pre-trained/fine-tuned model used in this pipeline is available on Hugging F
 
 ## Experimental Results and Trials
 
-The following research trials were conducted to find the best configuration through a systematic search:
+A total of 25 research trials were conducted to find the best configuration through a systematic search:
 
 - **Baseline Stabilization (7 trials)**: Fixing gated dataset access, handling float vs. half-precision errors, and establishing the true "out-of-the-box" performance (15.44% WER).
 - **Quantization Experiments (4 trials)**: Testing different bit-depths and selectively quantizing the encoder vs. the decoder to see which parts of the model were most sensitive to bit-reduction.
